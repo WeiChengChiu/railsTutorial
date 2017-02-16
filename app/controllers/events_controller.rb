@@ -1,13 +1,15 @@
 class EventsController < ApplicationController
 
+  before_action :set_event, :only => [:show, :edit, :update, :destroy]
+
   # GET /events/index
   # GET /events
   def index
-    @events = Event.all
+    @events = Event.page( params[:page] ).per(10)
   end
 
   def show
-    @event = Event.find( params[:id] )
+    @page_title = @event.name
   end
 
   # GET /events/new
@@ -19,9 +21,14 @@ class EventsController < ApplicationController
   def create
     @event = Event.new( event_params )
 
-    @event.save
+    if @event.save
 
-    redirect_to :action => :index
+      flash[:notice] = "新增成功"
+
+      redirect_to :action => :index
+    else
+      render :action => :new # new.html.erb
+    end
   end
 
   # GET /events/edit/:id
@@ -31,23 +38,30 @@ class EventsController < ApplicationController
 
   # POST /events/update/:id
   def update
-    @event = Event.find( params[:id] )
+    if @event.update( event_params )
 
-    @event.update( event_params )
+      flash[:notice] = "編輯成功"
 
-    redirect_to :action => :show, :id => @event
+      redirect_to :action => :show, :id => @event
+    else
+      render :action => :edit # edit.html.erb
+    end
   end
 
   # GET /event/destroy/:id
   def destroy
-    @event = Event.find( params[:id] )
-
     @event.destroy
+
+    flash[:alert] = "刪除成功"
 
     redirect_to :action => :index
   end
 
   private
+
+  def set_event
+    @event = Event.find( params[:id] )
+  end
 
   def event_params
     params.require(:event).permit(:name, :description)
