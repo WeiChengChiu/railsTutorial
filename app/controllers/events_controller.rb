@@ -17,7 +17,7 @@ class EventsController < ApplicationController
     @event = Event.new
   end
 
-  # POST /events/create
+  # POST /events/
   def create
     @event = Event.new( event_params )
 
@@ -25,36 +25,36 @@ class EventsController < ApplicationController
 
       flash[:notice] = "新增成功"
 
-      redirect_to :action => :index
+      redirect_to events_path
     else
       render :action => :new # new.html.erb
     end
   end
 
-  # GET /events/edit/:id
+  # GET /events/:id/edit
   def edit
     @event = Event.find( params[:id] )
   end
 
-  # POST /events/update/:id
+  # PATCH /events/:id
   def update
     if @event.update( event_params )
 
       flash[:notice] = "編輯成功"
 
-      redirect_to :action => :show, :id => @event
+      redirect_to event_path(@event)
     else
       render :action => :edit # edit.html.erb
     end
   end
 
-  # GET /event/destroy/:id
+  # DELETE /event/:id
   def destroy
     @event.destroy
 
     flash[:alert] = "刪除成功"
 
-    redirect_to :action => :index
+    redirect_to events_path
   end
 
   private
