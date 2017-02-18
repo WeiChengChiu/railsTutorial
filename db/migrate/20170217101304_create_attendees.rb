@@ -6,5 +6,8 @@ class CreateAttendees < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+
+    add_index :attendees, :event_id
+
   end
 end
