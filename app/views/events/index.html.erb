@@ -12,6 +12,8 @@
     <td>
       <%= link_to 'show', event_path(e), :class => "btn btn-primary" %>
 
+      <%= link_to 'Attendee List', event_attendees_path(e), :class => "btn btn-primary" %>
+
       <%= link_to 'get XML', event_path(e, :format => :xml), :class => "btn btn-default" %>
 
       <%= link_to 'get JSON', event_path(e, :format => :json), :class => "btn btn-default" %>
