@@ -22,6 +22,10 @@ class EventsController < ApplicationController
 
   end
 
+  def latest
+    @events = Event.order("id DESC").limit(5)
+  end
+
   def show
     respond_to do |format|
       format.html { @page_title = @event.name } # show.html.erb
@@ -73,6 +77,12 @@ class EventsController < ApplicationController
     flash[:alert] = "刪除成功"
 
     redirect_to events_path
+  end
+
+  def bulk_delete
+    Event.destroy_all
+
+    redirect_to :back
   end
 
   private
