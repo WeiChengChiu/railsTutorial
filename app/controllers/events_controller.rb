@@ -6,17 +6,7 @@ class EventsController < ApplicationController
   # GET /events
   def index
 
-    if params[:keyword]
-
-      @events = Event.where( [ "name like ?", "%#{params[:keyword]}%" ] )
-    else
-      @events = Event.all
-    end
-
-    if params[:order]
-      sort_by = (params[:order] == "name")? "name" : "id"
-      @events = @events.order(sort_by)
-    end
+    prepare_variables_for_index_template
 
     @events = @events.page( params[:page] ).per(10)
 
@@ -117,6 +107,20 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(:name, :description, :status, :group_ids => [])
+  end
+
+  def prepare_variables_for_index_template
+    if params[:keyword]
+
+      @events = Event.where( [ "name like ?", "%#{params[:keyword]}%" ] )
+    else
+      @events = Event.all
+    end
+
+    if params[:order]
+      sort_by = (params[:order] == "name")? "name" : "id"
+      @events = @events.order(sort_by)
+    end
   end
 
 end
