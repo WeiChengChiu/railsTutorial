@@ -9,7 +9,12 @@
   <%= submit_tag "Search" %>
 <% end %>
 
+
 <%= form_tag bulk_update_events_path do %>
+
+  <%= link_to " sort by name", events_path( order: "name"), :class => "btn btn-default" %>
+  <%= link_to "sort by default", events_path, :class => "btn btn-default" %>
+
 <table class="table">
 <% @events.each do |e| %>
 

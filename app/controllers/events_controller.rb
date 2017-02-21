@@ -13,6 +13,11 @@ class EventsController < ApplicationController
       @events = Event.all
     end
 
+    if params[:order]
+      sort_by = (params[:order] == "name")? "name" : "id"
+      @events = @events.order(sort_by)
+    end
+
     @events = @events.page( params[:page] ).per(10)
 
     respond_to do |format|
