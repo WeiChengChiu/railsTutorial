@@ -79,8 +79,15 @@ class EventsController < ApplicationController
     redirect_to events_path
   end
 
-  def bulk_delete
-    Event.destroy_all
+  def bulk_update
+    ids = Array( params[:ids] )
+    events = ids.map { |i| Event.find_by_id(i) }.compact
+
+    if params[:commit] == "Delete"
+      events.each { |e| e.destroy }
+    elsif params[:commit] == "Publish"
+      events.each { |e| e.update( status: "publish") }
+    end
 
     redirect_to :back
   end
@@ -92,7 +99,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:name, :description, :group_ids => [])
+    params.require(:event).permit(:name, :description, :status, :group_ids => [])
   end
 
 end
