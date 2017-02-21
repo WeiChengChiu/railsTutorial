@@ -4,6 +4,10 @@
   <%= link_to "latest events", latest_events_path, :class => "btn btn-primary" %>
 </p>
 
+<%= form_tag events_path, :method => :get do %>
+  <%= text_field_tag "keyword" %>
+  <%= submit_tag "Search" %>
+<% end %>
 
 <%= form_tag bulk_update_events_path do %>
 <table class="table">
@@ -18,6 +22,8 @@
 
     <td>
       <%= link_to 'show', event_path(e), :class => "btn btn-primary" %>
+
+      <%= link_to 'dashboard', dashboard_event_path(e), :class => "btn btn-default" %>
 
       <%= link_to 'Attendee List', event_attendees_path(e), :class => "btn btn-primary" %>
 

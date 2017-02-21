@@ -1,11 +1,19 @@
 class EventsController < ApplicationController
 
-  before_action :set_event, :only => [:show, :edit, :update, :destroy]
+  before_action :set_event, :only => [:show, :edit, :update, :destroy, :dashboard]
 
   # GET /events/index
   # GET /events
   def index
-    @events = Event.page( params[:page] ).per(10)
+
+    if params[:keyword]
+
+      @events = Event.where( [ "name like ?", "%#{params[:keyword]}%" ] )
+    else
+      @events = Event.all
+    end
+
+    @events = @events.page( params[:page] ).per(10)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -32,6 +40,10 @@ class EventsController < ApplicationController
       format.xml # show.xml.builder
       format.json { render :json => { id: @event.id, name: @event.name}.to_json }
     end
+  end
+
+  def dashboard
+
   end
 
   # GET /events/new
