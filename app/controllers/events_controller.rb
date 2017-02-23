@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
 
+  before_action :authenticate_user!, expect: [:index]
+
   before_action :set_event, :only => [:show, :edit, :update, :destroy, :dashboard]
 
   # GET /events/index
