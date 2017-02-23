@@ -26,6 +26,10 @@
     </td>
 
     <td>
+      <%= e.user.try(:short_name) %>
+    </td>
+
+    <td>
       <%= link_to 'show', event_path(e), :class => "btn btn-primary" %>
 
       <%= link_to 'dashboard', dashboard_event_path(e), :class => "btn btn-default" %>
